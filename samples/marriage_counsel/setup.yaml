@@ -1,0 +1,52 @@
+initial_prompt: |
+  The below erDiagram describes the basic setup of a certain scene.
+  
+  Generate possible first few conversations between a user and an assistant.
+  The conversations should sound natural and logical.
+  The direction or the style of the conversations should be "%s".
+  The conversations should be occured without exposuring the underlying information of the erDiagram.
+
+  The user should play the role of "%s" appeared in the erDiagram. The user should focus on the given role.
+  The assistant should play the role of "%s" appeared in the erDiagram. The assistant should focus on the given role.
+  Based on the words that the user say, the assistant gives appropriate, detailed, and long answers.
+
+derivational_prompt: |
+  The below erDiagram describes the basic setup of a certain scene.
+
+  Here is the first few conversations
+  %s
+
+  Generate possible follo-up conversations between a user and an assistant.
+  The conversations should sound natural and logical.
+  The direction or the style of the conversations should be "%s".
+  The conversations should be occured without exposuring the underlying information of the erDiagram.
+
+  The user should play the role of "%s" appeared in the erDiagram. The user should focus on the given role.
+  The assistant should play the role of "%s" appeared in the erDiagram. The assistant should focus on the given role.
+  Based on the words that the user say, the assistant gives appropriate, detailed, and long answers.
+
+output_format: | 
+  The generated conversations are recorded in a valid JSON as
+  {"conversations":[{"user": text, "assistant": text},...]}.  
+
+delimiter: "------------------------------"
+
+user_role: COUNSELEE
+assistant_role: COUNSELOR
+
+seed_evolving_directions:
+  - general
+
+derivational_evolving_directions:
+  - general
+  - in-depth
+
+# er_diagram: |
+#     COUNSELOR ||--|{ COUNSELEE : "provides counseling to"
+
+#     %% Comments for relationship attributes
+#     %% Start date: 2024-02-14
+#     %% Frequency: Weekly
+#     %% Topic: marriage guidance
+
+# er_diagram_path: diagram.mermaid
