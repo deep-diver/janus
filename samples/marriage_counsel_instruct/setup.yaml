@@ -1,0 +1,42 @@
+initial_prompt: |
+  %s # erDiagram
+  %s # delimiter
+  The above erDiagram describes the basic setup of a certain scene.
+
+  Generate a pair of conversation between user(%s) and assistant(%s). # user role, assistant role
+  The direction or the style of the conversation should be "%s". # direction
+  The conversations should be occured without exposuring the underlying information of the erDiagram.
+
+  The user describe his/her situation in a long paragraph as much as possible. It is ideal to provide detailed background information to the assistant.
+  Then the assistant gives appropriate, detailed, and long answers. Trying to give every possible advices on this single conversation in step-by-step manner.
+
+derivational_prompt: |
+  %s # erDiagram
+  %s # delimiter
+  The above erDiagram describes the basic setup of a certain scene.
+
+  %s # example conversation
+  %s # delimiter
+  Based on the above example conversation, generate another pair of conversation between user(%s) and assistant(%s). # user role, assistant role
+  The direction or the style of the conversation should be "%s". # direction
+  The conversations should be occured without exposuring the underlying information of the erDiagram.
+
+  The user describe his/her situation in a long paragraph as much as possible. It is ideal to provide detailed background information to the assistant.
+  Then the assistant gives appropriate, detailed, and long answers. Trying to give every possible advices on this single conversation in step-by-step manner.
+
+output_format: |
+  The generated conversations are recorded in a valid JSON as
+  {"conversation":{"user": text, "assistant": text}}.
+
+delimiter: "------------------------------"
+
+user_role: COUNSELEE
+assistant_role: COUNSELOR
+
+seed_evolving_directions:
+  - general
+  - diverse
+
+derivational_evolving_directions:
+  - general
+  - in-depth
