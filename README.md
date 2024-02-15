@@ -93,21 +93,31 @@ $ python src/main.py --help
 ...
 
 options:
-  -h, --help            show this help message and exit
   --gemini-api-key ➡️ Gemini API key from Google AI Studio
   --target-folder ➡️ In which folder to look up for setup.yaml and diagram.mermaid
   --target-filename ➡️ Filename to store the generated outputs. The file will be created in the same folder as target-folder
   --type ➡️ Multi-turn conversations or single turn instruction & response
-  --d-factor ➡️ How many times to generate outputs on a single direction
+  --s-factor ➡️ How many times to generate outputs on a single direction in seed generation
+  --d-factor ➡️ How many times to generate outputs on a single direction in derivational generation
   --retry-num ➡️ How many times to retry when failing at calling Gemini API or parsing JSON
 ```
 
-For the example of marriage counsel, you can run the following CLI with the prepared setup. Then, it will generate 40 (prompt, output) pairs, and you can see the actual output in the [output.json](https://github.com/deep-diver/auto-data-fountain/blob/main/samples/marriage_counsel/outputs.json) file.
+For the example of marriage counsel, you can run the following CLI with the prepared [setup](https://github.com/deep-diver/janus/tree/main/samples/marriage_counsel). Then, it will generate 40 (prompt, output) pairs, and you can see the actual output in the [output.json](https://github.com/deep-diver/auto-data-fountain/blob/main/samples/marriage_counsel/outputs.json) file.
 
 ```bash
 $ python src/main.py \ 
 --gemini-api-key "..." \ 
---target-folder samples/marriage_counsel
+--target-folder samples/marriage_counsel \
+--type conversation
+```
+
+For the same example of marriage counsel but in the single turn based data generation ([setup](https://github.com/deep-diver/janus/tree/main/samples/marriage_counsel_instruct)), you can run the following CLI. Then you can check out the example output in the [output.json](https://github.com/deep-diver/janus/blob/main/samples/marriage_counsel_instruct/outputs.json) file.
+
+```bash
+$ python src/main.py \ 
+--gemini-api-key "..." \ 
+--target-folder samples/marriage_counsel_instruct \
+--type instruct
 ```
 
 ## UI to filter out unsatisfied outputs
