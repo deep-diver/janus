@@ -1,0 +1,44 @@
+initial_prompt: |
+  %s # erDiagram
+  %s # delimiter
+  The above erDiagram describes the basic setup of a certain scene.
+
+  Generate possible first few conversations between a user and an assistant based on the erDiagram.
+  The conversations should sound natural and logical.
+  The direction or the style of the conversations should be "%s". # direction
+  The conversations should be occured without exposuring the underlying information of the erDiagram.
+
+  The user should play the role of "%s" appeared in the erDiagram. The user should focus on the given role. # user role
+  The assistant should play the role of "%s" appeared in the erDiagram. The assistant should focus on the given role. # assistant role
+  Based on the words that the user say, the assistant gives appropriate, detailed, and long answers.
+
+derivational_prompt: |
+  %s # erDiagram
+  %s # delimiter
+  The above erDiagram describes the basic setup of a certain scene.
+
+  Generate possible follow-up conversations between a user and an assistant based on the erDiagram and the first few conversations: %s # first few conversation in JSON str.
+  The conversations should sound natural and logical.
+  The direction or the style of the conversations should be "%s". # direction
+  The conversations should be occured without exposuring the underlying information of the erDiagram.
+
+  The user should play the role of "%s" appeared in the erDiagram. The user should focus on the given role. # user role
+  The assistant should play the role of "%s" appeared in the erDiagram. The assistant should focus on the given role. # assistant role
+  Based on the words that the user say, the assistant gives appropriate, detailed, and long answers.
+
+output_format: |
+  The generated conversations are recorded in a valid JSON as
+  {"conversations":[{"user": text, "assistant": text},...]}.
+
+delimiter: "------------------------------"
+
+user_role: JUNIOR_DEVELOPER
+assistant_role: SENIOR_DEVELOPR
+
+seed_evolving_directions:
+  - general
+  - diverse
+
+derivational_evolving_directions:
+  - general
+  - in-depth
