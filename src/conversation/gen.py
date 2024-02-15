@@ -8,9 +8,12 @@ def gen_data(prompt, retry_num, gemini_api_key):
     data_json = None
     data = None
 
-    while data_json is None and \
-            data is None and \
+    while (data_json is None or data is None) and \
             cur_retry <= retry_num:
+
+        data_json = None
+        data = None
+
         try:
             data_json = call_gemini(
                 prompt=prompt,
@@ -57,10 +60,10 @@ def gen_derivations(setup, mermaid, seed_conversations, gemini_api_key, retry_nu
     derivational_evolving_directions = setup["derivational_evolving_directions"]
 
     for seed_conversation in tqdm(seed_conversations, desc="derivational generation", unit="seed"):
-        base_conversation = {'conversations': []}
+        base_conversation = []
 
         for conversation in tqdm(seed_conversation['conversations'], unit="conversation"):
-            base_conversation['conversations'].append(conversation)
+            base_conversation.append(conversation)
 
             for evolving_direction in tqdm(derivational_evolving_directions, unit="direction"):
                 prompt = derivational_prompt % (json.dumps(base_conversation), evolving_direction, user_role, assistant_role)
@@ -72,6 +75,6 @@ def gen_derivations(setup, mermaid, seed_conversations, gemini_api_key, retry_nu
                     output = gen_data(prompt, retry_num, gemini_api_key)
 
                     if output is not None:
-                        outputs.append(output)
+                        outputs.append(output["conversations"])
 
     return outputs
