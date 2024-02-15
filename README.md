@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/deep-diver/auto-data-fountain/blob/main/assets/janus-logo.png?raw=true" width="70%" />
+  <img src="https://github.com/deep-diver/auto-data-fountain/blob/main/assets/janus-logo.png?raw=true" height="70%" />
 </p>
 
 # Janus
