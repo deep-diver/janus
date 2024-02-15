@@ -84,7 +84,8 @@ def gen_derivations(
             for _ in range(d_factor):
                 output = gen_data(prompt, retry_num, gemini_api_key)
 
-                if output is not None:
-                    outputs.append(output)
+                if output is not None and \
+                    len(output["conversation"]) == 2:
+                    outputs.append(output["conversation"])
 
     return outputs

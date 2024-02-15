@@ -85,7 +85,15 @@ def gen_derivations(
                     output = gen_data(prompt, retry_num, gemini_api_key)
 
                     if output is not None:
-                        outputs.append(output["conversations"])
+                        count = 0
+                        for conv in output["conversations"]:
+                            if len(conv) != 2:
+                                break
+                            
+                            count = count + 1
+                        
+                        if count == len(output["conversations"]):
+                            outputs.append(output["conversations"])
 
     return outputs
 
