@@ -109,3 +109,11 @@ $ python src/main.py \
 --gemini-api-key "..." \ 
 --target-folder samples/marriage_counsel
 ```
+
+## UI to filter out unsatisfied outputs
+
+This tool is under development, and the dev version is hosted on the [Hugging Face Space](https://huggingface.co/spaces/chansung/janus-filtering). The purpose of this tool is to let users interact with generated outputs and decide to keep or discard what.
+
+<p align="center">
+  <img src="https://github.com/deep-diver/auto-data-fountain/blob/main/assets/filtering-screen.png?raw=true" width="70%" />
+</p>
