@@ -1,4 +1,8 @@
-# ⛲️ Auto Data Fountain
+<p align="center">
+  <img src=https://github.com/deep-diver/auto-data-fountain/blob/main/assets/janus-logo.png?raw=true />
+</p>
+
+# Janus
 
 The goal of Auto Data Fountain is to generate synthetic data in order to fine-tune a large language model for arbitrary situations in a systematic way. Auto Data Fountain generates synthetic data by leaveraging the power of Large Language Mode(LLM). Currently supported LLM is Google's Gemini Pro, and GPT4 will be supported soon. 
 
