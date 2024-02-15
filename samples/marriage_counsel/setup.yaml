@@ -1,33 +1,34 @@
 initial_prompt: |
-  The below erDiagram describes the basic setup of a certain scene.
-  
-  Generate possible first few conversations between a user and an assistant.
+  %s # erDiagram
+  %s # delimiter
+  The above erDiagram describes the basic setup of a certain scene.
+
+  Generate possible first few conversations between a user and an assistant based on the erDiagram.
   The conversations should sound natural and logical.
-  The direction or the style of the conversations should be "%s".
+  The direction or the style of the conversations should be "%s". # direction
   The conversations should be occured without exposuring the underlying information of the erDiagram.
 
-  The user should play the role of "%s" appeared in the erDiagram. The user should focus on the given role.
-  The assistant should play the role of "%s" appeared in the erDiagram. The assistant should focus on the given role.
+  The user should play the role of "%s" appeared in the erDiagram. The user should focus on the given role. # user role
+  The assistant should play the role of "%s" appeared in the erDiagram. The assistant should focus on the given role. # assistant role
   Based on the words that the user say, the assistant gives appropriate, detailed, and long answers.
 
 derivational_prompt: |
-  The below erDiagram describes the basic setup of a certain scene.
+  %s # erDiagram
+  %s # delimiter
+  The above erDiagram describes the basic setup of a certain scene.
 
-  Here is the first few conversations
-  %s
-
-  Generate possible follo-up conversations between a user and an assistant.
+  Generate possible follow-up conversations between a user and an assistant based on the erDiagram and the first few conversations: %s # first few conversation in JSON str.
   The conversations should sound natural and logical.
-  The direction or the style of the conversations should be "%s".
+  The direction or the style of the conversations should be "%s". # direction
   The conversations should be occured without exposuring the underlying information of the erDiagram.
 
-  The user should play the role of "%s" appeared in the erDiagram. The user should focus on the given role.
-  The assistant should play the role of "%s" appeared in the erDiagram. The assistant should focus on the given role.
+  The user should play the role of "%s" appeared in the erDiagram. The user should focus on the given role. # user role
+  The assistant should play the role of "%s" appeared in the erDiagram. The assistant should focus on the given role. # assistant role
   Based on the words that the user say, the assistant gives appropriate, detailed, and long answers.
 
-output_format: | 
+output_format: |
   The generated conversations are recorded in a valid JSON as
-  {"conversations":[{"user": text, "assistant": text},...]}.  
+  {"conversations":[{"user": text, "assistant": text},...]}.
 
 delimiter: "------------------------------"
 
@@ -36,6 +37,7 @@ assistant_role: COUNSELOR
 
 seed_evolving_directions:
   - general
+  - diverse
 
 derivational_evolving_directions:
   - general
