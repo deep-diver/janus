@@ -86,6 +86,6 @@ def gen_derivations(
 
                 if output is not None and \
                     len(output["conversation"]) == 2:
-                    outputs.append(output["conversation"])
+                    outputs.append([output["conversation"]])
 
     return outputs
