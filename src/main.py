@@ -32,12 +32,12 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--gemini-api-key', type=str, required=True)
-    parser.add_argument('--target-folder', type=str, required=True)
-    parser.add_argument('--target-filename', type=str, default="outputs.json")
-    parser.add_argument('--type', type=str, default="conversation")
-    parser.add_argument('--d-factor', type=int, default=4)
-    parser.add_argument('--retry-num', type=int, default=4)
+    parser.add_argument('--gemini-api-key', type=str, required=True, metavar="➡️ Gemini API key from Google AI Studio")
+    parser.add_argument('--target-folder', type=str, required=True, metavar="➡️ In which folder to look up for setup.yaml and diagram.mermaid")
+    parser.add_argument('--target-filename', type=str, default="outputs.json", metavar="➡️ Filename to store the generated outputs. The file will be created in the same folder as target-folder")
+    parser.add_argument('--type', type=str, default="conversation", metavar="➡️ Multi-turn conversations or single turn instruction & response")
+    parser.add_argument('--d-factor', type=int, default=4, metavar="➡️ How many times to generate outputs on a single direction")
+    parser.add_argument('--retry-num', type=int, default=4, metavar="➡️ How many times to retry when failing at calling Gemini API or parsing JSON")
 
     args = parser.parse_args()
     main(args)
