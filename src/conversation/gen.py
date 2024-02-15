@@ -3,6 +3,30 @@ from tqdm import tqdm
 from llm.gemini import call_gemini
 from utils import parse_first_json_snippet
 
+def default_initial_prompt_constructor(setup, mermaid, evolving_direction):
+    initial_prompt = setup['initial_prompt']
+    output_format = setup['output_format']
+    delimiter = setup['delimiter']
+
+    user_role = setup['user_role']
+    assistant_role = setup['assistant_role']
+
+    prompt = initial_prompt % (mermaid, delimiter, evolving_direction, user_role, assistant_role)
+    prompt = f"{prompt}\n{output_format}"
+    return prompt
+
+def default_derivational_prompt_constructor(setup, mermaid, base_conversation, evolving_direction):
+    derivational_prompt = setup['derivational_prompt']
+    output_format = setup['output_format']
+    delimiter = setup['delimiter']
+
+    user_role = setup['user_role']
+    assistant_role = setup['assistant_role']
+
+    prompt = derivational_prompt % (mermaid, delimiter, json.dumps(base_conversation), evolving_direction, user_role, assistant_role)
+    prompt = f"{prompt}\n{output_format}"
+    return prompt
+
 def gen_data(prompt, retry_num, gemini_api_key):
     cur_retry = 0
     data_json = None
@@ -27,20 +51,14 @@ def gen_data(prompt, retry_num, gemini_api_key):
 
     return data
 
-def gen_seeds(setup, mermaid, gemini_api_key, retry_num=4):
-    initial_prompt = setup['initial_prompt']
-    output_format = setup['output_format']
-    delimiter = setup['delimiter']
-
-    user_role = setup['user_role']
-    assistant_role = setup['assistant_role']
-
+def gen_seeds(
+    setup, mermaid, gemini_api_key, prompt_constructor, retry_num=4
+):
     outputs = []
     seed_evolving_directions = setup["seed_evolving_directions"]
 
     for evolving_direction in tqdm(seed_evolving_directions, desc="seed generation", unit="direction"):
-        prompt = initial_prompt % (mermaid, delimiter, evolving_direction, user_role, assistant_role)
-        prompt = f"{prompt}\n{output_format}"
+        prompt = prompt_constructor(setup, mermaid, evolving_direction)
         output = gen_data(prompt, retry_num, gemini_api_key)
 
         if output is not None:
@@ -48,14 +66,9 @@ def gen_seeds(setup, mermaid, gemini_api_key, retry_num=4):
 
     return outputs
 
-def gen_derivations(setup, mermaid, seed_conversations, gemini_api_key, retry_num=4, d_factor=4):
-    derivational_prompt = setup['derivational_prompt']
-    output_format = setup['output_format']
-    delimiter = setup['delimiter']
-
-    user_role = setup['user_role']
-    assistant_role = setup['assistant_role']
-
+def gen_derivations(
+    setup, mermaid, seed_conversations, gemini_api_key, derivational_prompt_constructor, retry_num=4, d_factor=4
+):
     outputs = []
     derivational_evolving_directions = setup["derivational_evolving_directions"]
 
@@ -66,8 +79,7 @@ def gen_derivations(setup, mermaid, seed_conversations, gemini_api_key, retry_nu
             base_conversation.append(conversation)
 
             for evolving_direction in derivational_evolving_directions:
-                prompt = derivational_prompt % (mermaid, delimiter, json.dumps(base_conversation), evolving_direction, user_role, assistant_role)
-                prompt = f"{prompt}\n{output_format}"
+                prompt = derivational_prompt_constructor(setup, mermaid, base_conversation, evolving_direction)
 
                 for _ in tqdm(range(d_factor), unit="d_factor"):
                     generated_conversation = None

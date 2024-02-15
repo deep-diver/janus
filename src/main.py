@@ -3,6 +3,7 @@ import json
 import argparse
 from conversation.parser import get_setup_and_mermaid
 from conversation.gen import gen_seeds, gen_derivations
+from conversation.gen import default_initial_prompt_constructor, default_derivational_prompt_constructor
 
 def main(args):
     if args.type == "conversation":
@@ -13,13 +14,15 @@ def main(args):
         # seeds gen
         print("2. generate seeds")
         seeds = gen_seeds(
-            setup, mermaid, args.gemini_api_key, args.retry_num
+            setup, mermaid, args.gemini_api_key, 
+            default_initial_prompt_constructor, args.retry_num
         )
 
         # derivational gen
         print("3. generate derivations")
         outputs = gen_derivations(
-            setup, mermaid, seeds, args.gemini_api_key, args.retry_num, args.d_factor
+            setup, mermaid, seeds, args.gemini_api_key, 
+            default_derivational_prompt_constructor, args.retry_num, args.d_factor
         )
 
         # save
