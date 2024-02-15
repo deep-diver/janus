@@ -54,8 +54,18 @@ derivational_evolving_directions:
   - in-depth
 ```
 
+```
+# diagram.mermaid
+erDiagram
+    COUNSELOR ||--|{ COUNSELEE : "provides counseling to"
+
+    %% Comments for relationship attributes
+    %% Start date: 2024-02-14
+    %% Frequency: Weekly
+    %% Topic: marriage guidance
+```
+
 ```mermaid
-%% diagram.mermaid
 erDiagram
     COUNSELOR ||--|{ COUNSELEE : "provides counseling to"
 
