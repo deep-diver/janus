@@ -15,7 +15,7 @@ def main(args):
         # seeds gen
         print("2. generate seeds")
         seeds = conv_gen.gen_seeds(
-            setup, mermaid, args.gemini_api_key, 
+            setup, mermaid, args.backend_llm, args.api_key, 
             conv_gen.default_initial_prompt_constructor, args.retry_num
         )
         print("2. generate seeds ...done")
@@ -23,7 +23,7 @@ def main(args):
         # derivational gen
         print("3. generate derivations")
         outputs = conv_gen.gen_derivations(
-            setup, mermaid, seeds, args.gemini_api_key, 
+            setup, mermaid, seeds, args.backend_llm, args.api_key, 
             conv_gen.default_derivational_prompt_constructor, args.retry_num, args.d_factor
         )
         print("3. generate derivations ...done")
@@ -44,7 +44,7 @@ def main(args):
         # seeds gen
         print("2. generate seeds")
         seeds = inst_gen.gen_seeds(
-            setup, mermaid, args.gemini_api_key, 
+            setup, mermaid, args.backend_llm, args.api_key, 
             inst_gen.default_initial_prompt_constructor, 
             args.retry_num, args.s_factor
         )
@@ -53,10 +53,9 @@ def main(args):
         # derivational gen
         print("3. generate derivations")
         outputs = inst_gen.gen_derivations(
-            setup, mermaid, seeds, args.gemini_api_key, 
+            setup, mermaid, seeds, args.backend_llm, args.api_key, 
             inst_gen.default_derivational_prompt_constructor, args.retry_num, args.d_factor
         )
-        print("3. generate derivations ...done")
         
         # save
         print("4. export")
@@ -69,7 +68,8 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--gemini-api-key', type=str, required=True, metavar="➡️ Gemini API key from Google AI Studio")
+    parser.add_argument('--backend-llm', default="gemini", choices=["gemini", "gpt"])
+    parser.add_argument('--api-key', type=str, required=True, metavar="➡️ API key for backend LLM")
     parser.add_argument('--target-folder', type=str, required=True, metavar="➡️ In which folder to look up for setup.yaml and diagram.mermaid")
     parser.add_argument('--target-filename', type=str, default="outputs.json", metavar="➡️ Filename to store the generated outputs. The file will be created in the same folder as target-folder")
     parser.add_argument('--type', default="conversation", choices=['conversation', 'instruct'], metavar="➡️ Multi-turn conversations or single turn instruction & response")

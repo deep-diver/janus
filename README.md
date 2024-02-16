@@ -4,7 +4,7 @@
 
 # Janus
 
-The goal of Janus is to generate synthetic data in order to fine-tune a large language model for arbitrary situations in a systematic way. Janus generates synthetic data by leaveraging the power of Large Language Mode(LLM). Currently supported LLM is Google's Gemini Pro, and GPT4 will be supported soon. 
+The goal of Janus is to generate synthetic data in order to fine-tune a large language model for arbitrary situations in a systematic way. Janus generates synthetic data by leaveraging the power of Large Language Mode(LLM). Currently supported LLMs are Google's Gemini Pro 1.0 and OpenAI's GPT4, and other open source local LLMs will be supported later. 
 
 ## Motivation
 
@@ -86,14 +86,15 @@ $ pip install -r requirements.txt
 
 5. run the `main.py` script
 
-Below shows the CLI arguments to run the `main.py` script. Currently Gemini Pro is the only supported backend LLM. If you don't have the API key yet, grasp one at [Google AI Studio](https://cloud.google.com/generative-ai-studio). It's free. GPT4 support will be added later.
+Below shows the CLI arguments to run the `main.py` script. Currently Gemini Pro is the only supported backend LLM. If you don't have the API key yet, grasp one at [Google AI Studio](https://cloud.google.com/generative-ai-studio). It's free. If you want to use OpenAI's Chat Completion API w/ GPT4, feel free to use do so with `--backend-llm gpt` option.
 
 ```bash
 $ python src/main.py --help
 ...
 
 options:
-  --gemini-api-key ➡️ Gemini API key from Google AI Studio
+  --backend-llm {gemini,gpt}
+  --api-key ➡️ API key for backend LLM
   --target-folder ➡️ In which folder to look up for setup.yaml and diagram.mermaid
   --target-filename ➡️ Filename to store the generated outputs. The file will be created in the same folder as target-folder
   --type ➡️ Multi-turn conversations or single turn instruction & response
@@ -105,8 +106,9 @@ options:
 For the example of marriage counsel, you can run the following CLI with the prepared [setup](https://github.com/deep-diver/janus/tree/main/samples/marriage_counsel). Then, it will generate 40 (prompt, output) pairs, and you can see the actual output in the [output.json](https://github.com/deep-diver/auto-data-fountain/blob/main/samples/marriage_counsel/outputs.json) file.
 
 ```bash
-$ python src/main.py \ 
---gemini-api-key "..." \ 
+$ python src/main.py \
+--backend-llm gemini \
+--api-key "..." \
 --target-folder samples/marriage_counsel \
 --type conversation
 ```
@@ -114,8 +116,9 @@ $ python src/main.py \
 For the same example of marriage counsel but in the single turn based data generation ([setup](https://github.com/deep-diver/janus/tree/main/samples/marriage_counsel_instruct)), you can run the following CLI. Then you can check out the example output in the [output.json](https://github.com/deep-diver/janus/blob/main/samples/marriage_counsel_instruct/outputs.json) file.
 
 ```bash
-$ python src/main.py \ 
---gemini-api-key "..." \ 
+$ python src/main.py \
+--backend-llm gemini \
+--api-key "..." \
 --target-folder samples/marriage_counsel_instruct \
 --type instruct
 ```
