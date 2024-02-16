@@ -46,4 +46,4 @@ def call_gpt(prompt="", API_KEY=None, given_text=None, given_image=None, generat
         **generation_config
     )
     
-    return response.choices[0].message.content
+    return model_name, response.choices[0].message.content

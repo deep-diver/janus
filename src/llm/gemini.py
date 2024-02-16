@@ -53,4 +53,4 @@ def call_gemini(prompt="", API_KEY=None, given_text=None, given_image=None, gene
     prompt_parts.append(construct_image_part(given_image))
 
   response = model.generate_content(prompt_parts)
-  return response.text
+  return model_name, response.text

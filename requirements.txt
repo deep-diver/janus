@@ -1,4 +1,8 @@
+datasets
+huggingface_hub
+
 google-generativeai
 openai
+
 pyyaml
 tqdm
