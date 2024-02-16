@@ -32,6 +32,7 @@ def gen_data(prompt, retry_num, backend_llm, api_key):
     cur_retry = 0
     data_json = None
     data = None
+    model_name = "unknown"
 
     while (data_json is None or data is None) and \
             cur_retry <= retry_num:
@@ -41,12 +42,12 @@ def gen_data(prompt, retry_num, backend_llm, api_key):
 
         try:
             if backend_llm == "gemini":
-                data_json = call_gemini(
+                model_name, data_json = call_gemini(
                     prompt=prompt,
                     API_KEY=api_key
                 )
             elif backend_llm == "gpt":
-                data_json = call_gpt(
+                model_name, data_json = call_gpt(
                     prompt=prompt,
                     API_KEY=api_key
                 )
@@ -56,7 +57,7 @@ def gen_data(prompt, retry_num, backend_llm, api_key):
             cur_retry = cur_retry + 1
             continue
 
-    return data
+    return model_name, data
 
 def gen_seeds(
     setup, mermaid, backend_llm, api_key, prompt_constructor, retry_num=4
@@ -66,7 +67,7 @@ def gen_seeds(
 
     for evolving_direction in tqdm(seed_evolving_directions, desc="seed generation", unit="direction"):
         prompt = prompt_constructor(setup, mermaid, evolving_direction)
-        output = gen_data(prompt, retry_num, backend_llm, api_key)
+        _, output = gen_data(prompt, retry_num, backend_llm, api_key)
 
         if output is not None:
             outputs.append(output)
@@ -90,7 +91,7 @@ def gen_derivations(
                 prompt = derivational_prompt_constructor(setup, mermaid, base_conversation, evolving_direction)
 
                 for _ in range(d_factor):
-                    output = gen_data(prompt, retry_num, backend_llm, api_key)
+                    model_name, output = gen_data(prompt, retry_num, backend_llm, api_key)
 
                     if output is not None and "conversations" in output:
                         count = 0
@@ -103,7 +104,7 @@ def gen_derivations(
                         if count == len(output["conversations"]):
                             output["type"] = type
                             output["category"] = category
-                            output["model"] = backend_llm
+                            output["model"] = model_name
                             outputs.append(output)
 
     return outputs

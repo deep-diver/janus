@@ -1,3 +1,4 @@
+import copy
 import json
 from tqdm import tqdm
 from llm.gemini import call_gemini
@@ -33,6 +34,7 @@ def gen_data(prompt, retry_num, backend_llm, api_key):
     cur_retry = 0
     data_json = None
     data = None
+    model_name = "unknown"
 
     while (data_json is None or data is None) and \
             cur_retry <= retry_num:
@@ -42,12 +44,12 @@ def gen_data(prompt, retry_num, backend_llm, api_key):
 
         try:
             if backend_llm == "gemini":
-                data_json = call_gemini(
+                model_name, data_json = call_gemini(
                     prompt=prompt,
                     API_KEY=api_key
                 )
             elif backend_llm == "gpt":
-                data_json = call_gpt(
+                model_name, data_json = call_gpt(
                     prompt=prompt,
                     API_KEY=api_key
                 )                
@@ -57,7 +59,7 @@ def gen_data(prompt, retry_num, backend_llm, api_key):
             cur_retry = cur_retry + 1
             continue
 
-    return data
+    return model_name, data
 
 def gen_seeds(
     setup, mermaid, backend_llm, api_key, prompt_constructor, retry_num=4, s_factor=4
@@ -69,7 +71,7 @@ def gen_seeds(
         prompt = prompt_constructor(setup, mermaid, evolving_direction)
 
         for _ in range(s_factor):
-            output = gen_data(prompt, retry_num, backend_llm, api_key)
+            _, output = gen_data(prompt, retry_num, backend_llm, api_key)
 
             if output is not None:
                 outputs.append(output)
@@ -90,15 +92,18 @@ def gen_derivations(
             prompt = derivational_prompt_constructor(setup, mermaid, example_conversation, evolving_direction)
 
             for _ in range(d_factor):
-                output = gen_data(prompt, retry_num, backend_llm, api_key)
+                model_name, output = gen_data(prompt, retry_num, backend_llm, api_key)
 
                 if output is not None and \
                     "conversation" in output and \
                     len(output["conversation"]) == 2:
-                    output["conversation"] = [output["conversation"]]
+                    conversations = copy.deepcopy(output["conversation"])
+                    del output["conversation"]
+                    
+                    output["conversations"] = [conversations]
                     output["type"] = type
                     output["category"] = category
-                    output["model"] = backend_llm
+                    output["model"] = model_name
                     outputs.append(output)
 
     return outputs
