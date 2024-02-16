@@ -98,6 +98,7 @@ def gen_derivations(
                     output["conversation"] = [output["conversation"]]
                     output["type"] = type
                     output["category"] = category
+                    output["model"] = backend_llm
                     outputs.append(output)
 
     return outputs

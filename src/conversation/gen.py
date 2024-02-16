@@ -103,6 +103,7 @@ def gen_derivations(
                         if count == len(output["conversations"]):
                             output["type"] = type
                             output["category"] = category
+                            output["model"] = backend_llm
                             outputs.append(output)
 
     return outputs

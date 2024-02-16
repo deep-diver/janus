@@ -2,6 +2,10 @@ import os
 import yaml
 import json
 
+import datasets
+from huggingface_hub import create_repo
+from huggingface_hub.utils import HfHubHTTPError
+
 def find_json_snippet(raw_snippet):
 	json_parsed_string = None
 
@@ -62,3 +66,21 @@ def get_setup_and_mermaid(folder_path):
         mermaid = file.read()
 
     return setup, mermaid.strip()
+
+
+def push_to_hf_hub(
+	file_path, repo_id, token, append
+):
+	exist = False
+	ds = datasets.load_dataset('json', data_files=file_path)
+    
+	try:
+		create_repo(repo_id, repo_type="dataset", token=token)
+	except HfHubHTTPError as e:
+		exist = True
+    
+	if exist and append:
+		existing_ds = datasets.load_dataset(repo_id)
+		ds = datasets.concatenate_datasets([existing_ds['train'], ds['train']])
+    
+	ds.push_to_hub(repo_id, token=token)
