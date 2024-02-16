@@ -97,7 +97,7 @@ options:
   --api-key ➡️ API key for backend LLM
   --target-folder ➡️ In which folder to look up for setup.yaml and diagram.mermaid
   --target-filename ➡️ Filename to store the generated outputs. The file will be created in the same folder as target-folder
-  --type ➡️ Multi-turn conversations or single turn instruction & response
+  --type {conversation, instruct}
   --s-factor ➡️ How many times to generate outputs on a single direction in seed generation
   --d-factor ➡️ How many times to generate outputs on a single direction in derivational generation
   --retry-num ➡️ How many times to retry when failing at calling Gemini API or parsing JSON
