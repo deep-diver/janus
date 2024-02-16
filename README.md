@@ -101,10 +101,14 @@ options:
   --api-key ➡️ API key for backend LLM
   --target-folder ➡️ In which folder to look up for setup.yaml and diagram.mermaid
   --target-filename ➡️ Filename to store the generated outputs. The file will be created in the same folder as target-folder
-  --type {conversation, instruct}
+  --type ➡️ Multi-turn conversations or single turn instruction & response
   --s-factor ➡️ How many times to generate outputs on a single direction in seed generation
   --d-factor ➡️ How many times to generate outputs on a single direction in derivational generation
   --retry-num ➡️ How many times to retry when failing at calling Gemini API or parsing JSON
+
+  --hf-hub-repo-id ➡️ Repository ID of Hugging Face Hub (Dataset)
+  --hf-token ➡️ Hugging Face Hub Access Token
+  --hf-append ➡️ Whether to append outputs to existing data on the Hugging Face Hub
 ```
 
 For the example of marriage counsel, you can run the following CLI with the prepared [setup](https://github.com/deep-diver/janus/tree/main/samples/marriage_counsel). Then, it will generate 40 (prompt, output) pairs, and you can see the actual output in the [output.json](https://github.com/deep-diver/auto-data-fountain/blob/main/samples/marriage_counsel/outputs.json) file.
@@ -114,7 +118,10 @@ $ python src/main.py \
 --backend-llm gemini \
 --api-key "..." \
 --target-folder samples/marriage_counsel \
---type conversation
+--type conversation \
+--hf-hub-repo-id chansung/test-ds \ 
+--hf-token "..." \
+--hf-append # append to the existing dataset on the hub
 ```
 
 For the same example of marriage counsel but in the single turn based data generation ([setup](https://github.com/deep-diver/janus/tree/main/samples/marriage_counsel_instruct)), you can run the following CLI. Then you can check out the example output in the [output.json](https://github.com/deep-diver/janus/blob/main/samples/marriage_counsel_instruct/outputs.json) file.
