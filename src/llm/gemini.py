@@ -2,9 +2,9 @@ import google.generativeai as genai
 
 def determine_model_name(given_image=None):
   if given_image is None:
-    return "gemini-pro"
+    return "gemini-1.0-pro"
   else:
-    return "gemini-pro-vision"
+    return "gemini-1.0-pro-vision-latest"
 
 def construct_image_part(given_image):
   return {

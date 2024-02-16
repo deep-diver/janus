@@ -1,3 +1,4 @@
 google-generativeai
+openai
 pyyaml
 tqdm
