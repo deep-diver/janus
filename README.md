@@ -14,6 +14,10 @@ Those synthetic data generation methods define seed prompts, then LLM(mostly GPT
 
 1. The seed prompts are manually hand crafted. The seed prompts are very important since all the derived (prompt, output) pairs have dependency on them. If you look into some of the examples (such as [Alpaca](https://github.com/tatsu-lab/stanford_alpaca/blob/main/seed_tasks.jsonl)), it is hard to capture how each prompt is designed and weather there are implicit biases or ethical violations. 
     - _**Janus**_ uses [Mermaid](https://mermaid.js.org/) syntax to represent entities and their relationship. Also, Mermaid allows us to define detailed attributes of each entity and the relationship with dedicated syntax and comments. Underlying assumption is that certain situations could be depicted better and clearer in structured format than plain natural human language. Based on the Mermaid definition, the seed prompts are automatically generated.
+    - If you are not familiar with Mermaid yet
+      - The official doc comes with straight forward explanation to understand its syntax, and it is not difficult to draw diagrams manually.
+      - However, there are various tools around it as well. For instance, the official website comes with [Mermaid Live Editor](https://mermaid.live/), or [Mermaid Flow](https://www.mermaidflow.app/) provides [Visual Editor](https://www.mermaidflow.app/flowchart), or there are VSCode extensions as well.
+      - Also, if you are familar with SQL syntax, there are conversion tools such as [sql2mermaid](https://github.com/nkato/sql2mermaid) that turn SQL to Mermaid relational diagram as well.
       
 2. These methods were applied to build up a sort of general purpose fine-tuned LLMs. General purpose doesn't mean the fine-tuned LLMs are in the level of expert to solve problems on any arbitrary tasks. Rather it tries to give you general answers on various tasks. This is why some modern datasets (in 2023~2024) are constructed by merging lots of different datasets from various sources. That means it is hard to find a universally complete dataset on every single possible scenarios.
     - Since _**Janus**_ leverages the Mermaid syntax, we can describe a certain situations or task in more sophisticated manner. Further, Janus let us define the evolving directions that guide how derived prompts from the seed prompts should be generated.
@@ -130,3 +134,10 @@ This tool is under development, and the dev version is hosted on the [Hugging Fa
 <p align="center">
   <img src="https://github.com/deep-diver/auto-data-fountain/blob/main/assets/filtering-screen.png?raw=true" width="70%" />
 </p>
+
+
+## TODOs
+
+- [ ] More documnets on the generating process
+- [ ] Push to Hugging Face Hub
+- [ ] UI and Hugging Face Hub integration
