@@ -77,9 +77,10 @@ def gen_seeds(
     return outputs
 
 def gen_derivations(
-    setup, mermaid, seed_conversations, backend_llm, api_key, derivational_prompt_constructor, retry_num=4, d_factor=4
+    setup, mermaid, seed_conversations, backend_llm, api_key, derivational_prompt_constructor, type, retry_num=4, d_factor=4
 ):
     outputs = []
+    category = setup["category"]
     derivational_evolving_directions = setup["derivational_evolving_directions"]
 
     for seed_conversation in tqdm(seed_conversations, desc="derivational generation", unit="seed"):
@@ -92,7 +93,11 @@ def gen_derivations(
                 output = gen_data(prompt, retry_num, backend_llm, api_key)
 
                 if output is not None and \
+                    "conversation" in output and \
                     len(output["conversation"]) == 2:
-                    outputs.append([output["conversation"]])
+                    output["conversation"] = [output["conversation"]]
+                    output["type"] = type
+                    output["category"] = category
+                    outputs.append(output)
 
     return outputs

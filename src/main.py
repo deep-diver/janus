@@ -24,7 +24,8 @@ def main(args):
         print("3. generate derivations")
         outputs = conv_gen.gen_derivations(
             setup, mermaid, seeds, args.backend_llm, args.api_key, 
-            conv_gen.default_derivational_prompt_constructor, args.retry_num, args.d_factor
+            conv_gen.default_derivational_prompt_constructor, 
+            args.type, args.retry_num, args.d_factor
         )
         print("3. generate derivations ...done")
 
@@ -54,7 +55,8 @@ def main(args):
         print("3. generate derivations")
         outputs = inst_gen.gen_derivations(
             setup, mermaid, seeds, args.backend_llm, args.api_key, 
-            inst_gen.default_derivational_prompt_constructor, args.retry_num, args.d_factor
+            inst_gen.default_derivational_prompt_constructor, 
+            args.type, args.retry_num, args.d_factor
         )
         
         # save

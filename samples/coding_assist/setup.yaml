@@ -1,3 +1,5 @@
+category: coding assist
+
 initial_prompt: |
   %s # erDiagram
   %s # delimiter
