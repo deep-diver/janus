@@ -56,11 +56,22 @@ derivational_evolving_directions:
 ```
 
 Let's go one by one
+
 - `category`: a string to manage the category of generated dataset. this information will be recorded in the output JSON file.
+
 - `initial_prompt`: initial prompt template to generate seed (prompt, output) pairs. The `%s` placeholders are replaced by the actual values from the internal logic. If you use Janus as API, you can define your own replacement logic. Take a look into the [default example](https://github.com/deep-diver/janus/blob/97a4e62d4e80490dec53b16a706cf60e180c67dc/src/conversation/gen.py#L7C5-L7C39). All the relevant information could be injected such as relational diagram(a.k.a erDiagram), the roles of user and assistant, evolving direction, and so on. 
-    - if you choose to use Janus as API, the information to be injected is not limited to the ones from the example. Since all the information from the YAML will be parsed and given as an argument, you can define additional information in YAML and utilize it.
+  - if you choose to use Janus as API, the information to be injected is not limited to the ones from the example. Since all the information from the YAML will be parsed and given as an argument, you can define additional information in YAML and utilize it.
+
 - `derivational_prompt`: prompt template to generate more data based on the seeds. This is basically similar to the `initial_prompt`, but information `first few conversation in JSON str` is additionally injected. 
+
 - `output_format`: defines how the output should be formatted. This section shouldn't be changed for now since all the parsing logic is hard coded based on this.
+
 - `user_role` and `assistant_role`: strings to be injected into the `intial_prompt` and `derivational_prompt` to clarify the roles of user and assistant. Someone might ask why not parsing the roles from `diagram.mermaid`. User's role is likely clearly defined in the `diagram.mermaid`, but assistant's role is not. For instance, we just want to describe a situation that a person interacting with objects. In this situation, the object shouldn't be the assistant, rather assistant could be a child psychologist.
+
 - `seed_evolving_directions`: this will drive the `initial_prompt` in many different directions to generate seed (prompt, output) pairs. It is recommended to use keywords that broadly capture the scene such as General, Overview, Broad, Wide-ranging, Sweeping, Expansive, Global, Universal, All-encompassing, Holistic, Diverse, Varied, Eclectic, Multifaceted, Wide-ranging, Divergent, Heterogeneous, Mixed, Assorted, Comprehensive, Alternative, Innovative, Creative, Unique, Unconventional, Original, Non-traditional, Fresh, Novel, Distinctive, Simple, Basic, Fundamental, Straightforward, Uncomplicated, Clear-cut, Elementary, Accessible, Understandable, Easy.
+  - in implementation, each direction is injected into `initial_prompt` in the for loop, then backend LLM generates the seed (prompt, output) pair for each cases. so, you can assume `len(seed_evolving_directions)` equals to `len(seeds)`.
+  - if you want to create more diverse seeds on each direction, you can set `--s-factor` option of the CLI. This allows to have a nested for loop, hense `len(seeds)` equals to `len(seed_evolving_directions)` * `len(s_factor)`.
+
 - `derivational_evolving_directions`: this will drive the `derivational_prompt` in many different directions go generate output (prompt, output) pairs. It is recommended to use keywords that drive the seed scenes in specific and complex such as Complex, Intricate, Multilayered, Complicated, Sophisticated, Elaborate, Involved, Detailed, Nuanced, Dense, Specific, Abstract, Analytical, Humorous,Controversial, Personal, Technical, Emotional, Focus, Perspective, Tangent, Depth, Breadth, Specificity, Context.
+  - generating derivational (prompt, output) pairs works by following the steps below.
+    1. incrementally take subset of the entire conversation. For instance, if a seed consists of 5 conversations between user and assistant, this process up to the 
