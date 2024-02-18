@@ -4,7 +4,11 @@ This additional document describe how Janus works under the hood.
 
 ## PREREQUSITES
 
-Before using Janus, please make sure you have a folder with `setup.yaml` and `diagram.mermaid` files inside. `setup.yaml` could be structured in many different ways, but it is recommended to following the below structure if you want to use Janus CLI. If you modify the source code, or if you want to use Janus as API, then you can define your own structure. Below is an example from `samples/coding_assist/setup.yaml`
+Before using Janus, please make sure you have a folder with `setup.yaml` and `diagram.mermaid` files inside. 
+
+### `setup.yaml`
+
+`setup.yaml` could be structured in many different ways, but it is recommended to following the below structure if you want to use Janus CLI. If you modify the source code, or if you want to use Janus as API, then you can define your own structure. Below is an example from `samples/coding_assist/setup.yaml`
 
 ```yaml
 category: coding assist
@@ -80,3 +84,48 @@ Let's go one by one
     4. step3 is repeated up to `d-factor` specified via the Janus CLI.
     5. go to the step1 but with +1 subset of the entire conversation
     6. when one seed is fully covered, then move on to the next seed, and go through step1 ~ step 5.
+
+### `diagram.mermaid`
+
+`diagram.mermaid` basically contains erDiagram based on [Mermaid](https://mermaid.js.org/syntax/entityRelationshipDiagram.html) syntax. However, If you are not familiar with Mermaid yet
+  - The official doc comes with straight forward explanation to understand its syntax, and it is not difficult to draw diagrams manually.
+  - However, there are various tools around it as well. For instance, the official website comes with [Mermaid Live Editor](https://mermaid.live/), or [Mermaid Flow](https://www.mermaidflow.app/) provides [Visual Editor](https://www.mermaidflow.app/flowchart), or there are VSCode extensions as well.
+  - Also, if you are familar with SQL syntax, there are conversion tools such as [sql2mermaid](https://github.com/nkato/sql2mermaid) that turn SQL to Mermaid relational diagram as well.
+
+Since `diagram.mermaid` is just a chunk of text, and since LLM could understand text, you can actually use comments for much detailed description or the relationship between entities. Take the below example
+
+```
+erDiagram
+    COUNSELOR {
+      specialization behavioristic-psychology
+    }
+    COUNSELEE {
+      sex male
+      marriage-duration 10-years
+    }
+    COUNSELOR ||--|{ COUNSELEE : "provides counseling to"
+
+    %% Comments for relationship attributes
+    %% Start date: 2024-02-14
+    %% Frequency: Weekly
+    %% Topic: marriage guidance
+```
+
+which is rendered as below in Markdown.
+
+```mermaid
+erDiagram
+    COUNSELOR {
+      specialization behavioristic-psychology
+    }
+    COUNSELEE {
+      sex male
+      marriage-duration 10-years
+    }
+    COUNSELOR ||--|{ COUNSELEE : "provides counseling to"
+
+    %% Comments for relationship attributes
+    %% Start date: 2024-02-14
+    %% Frequency: Weekly
+    %% Topic: marriage guidance
+```
