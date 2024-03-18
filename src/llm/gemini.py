@@ -27,19 +27,19 @@ def call_gemini(prompt="", API_KEY=None, given_text=None, given_image=None, gene
     safety_settings = [
       {
         "category": "HARM_CATEGORY_HARASSMENT",
-        "threshold": "BLOCK_ONLY_HIGH"
+        "threshold": "BLOCK_NONE"
       },
       {
         "category": "HARM_CATEGORY_HATE_SPEECH",
-        "threshold": "BLOCK_ONLY_HIGH"
+        "threshold": "BLOCK_NONE"
       },
       {
         "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-        "threshold": "BLOCK_ONLY_HIGH"
+        "threshold": "BLOCK_NONE"
       },
       {
         "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-        "threshold": "BLOCK_ONLY_HIGH"
+        "threshold": "BLOCK_NONE"
       },
     ]
 
