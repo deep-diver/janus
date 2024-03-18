@@ -145,6 +145,5 @@ This tool is under development, and the dev version is hosted on the [Hugging Fa
 
 ## TODOs
 
-- [ ] More documnets on the generating process
-- [ ] Push to Hugging Face Hub
-- [ ] UI and Hugging Face Hub integration
+- [X] More documnets on the generating process
+- [X] Push to Hugging Face Hub
